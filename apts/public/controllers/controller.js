@@ -15,7 +15,7 @@ $scope.getApartments = function(query){
     console.log('getApartments is running: ' + {test: $scope.test});
     
     reqData = {
-        query: 'Select date, address, sqm, floor, listprice, soldprice from booli_data limit 1',
+        query: 'Select date, address, sqm, floor, listprice, soldprice from apartments limit 1',
         yay: 'yaysvar'
     }
 

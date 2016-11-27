@@ -17,12 +17,15 @@
 // 	})
 // }
 // //runQuery("Select 1 as result", function(){console.log("callback")})
-
-var pgp = require('pg-promise')();
+promise = require('promise');
+var options = {
+    promiseLib: promise
+};
+var pgp = require('pg-promise')(options);
 var cn = {
     host: 'localhost',
     port: 5432,
-    database: 'booliData',
+    database: 'postgres',
     user: 'postgres',
     password: 'lagge'
 };
