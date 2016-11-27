@@ -73,6 +73,6 @@ app.get("/get_realtime_traffic", function (req, res) {
     trafiklab_caller.getTraficlab(query,handleResponse)
 });
 
-app.listen(3000);
+app.listen(8080);
 
-console.log("Apartments is running as port 3000")
+console.log("Apartments is running as port 8080")
