@@ -34,9 +34,11 @@ function runQuery(query, callback) {
 	var db = pgp(cn);
 	db.any(query, [true])
     .then(function (data) {
+        console.log(data)
         callback(data)
     })
     .catch(function (error) {
+        console.log(error)
         // error;
     });
 }

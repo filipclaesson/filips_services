@@ -7,31 +7,38 @@
 	<!--<form method="get" ng-click='getTrafik();'>
 		<button class="btn btn-primary btn-large" type="submit">Get Departures</button>
 	</form>-->
-	<form method="get" ng-click='getApartments();'>
-		<button class="btn btn-primary btn-large" type="submit">Get trafiklab</button>
-	</form>
+
+	<textarea
+		ng-model="query_input"
+		[name="string"]
+		[required="string"]
+		[ng-required="string"]
+		[ng-minlength="200 px"]
+		[ng-maxlength="number"]
+		[ng-pattern="string"]
+		[ng-change="string"]
+		[ng-trim="boolean"]>
+	</textarea>
 	<div class="col-md-12">
-		<input ng-model="test">
-		<h2> Busses</h2>
-		<table class="table table-striped">
-			<tr class="tableHeader">
-				<th class="col-md-1">Destination</th>
-				<th class="col-md-1">Station Name</th>
-				<th class="col-md-1">Departure Time</th>
-				<th class="col-md-1">Lon</th>
-				<th class="col-md-1">Lat</th>
-				<th class="col-md-2">next</th>
-			</tr>
-			<tr ng-repeat="item in trafiklab_data">
-				<td> {{item.Destination}}</td>
-				<td> {{item.ExpectedDateTime}}</td>
-				<td> {{item.LineNumber}}</td>
-				<td> {{item.StopAreaName}}</td>
-				<td> {{item.TimeTabledDateTime}}</td>
-				<td> {{item.TimeTabledDateTime}}<span ng-repeat="station in departure.nextStations"> {{station}},</span> </td>
-			</tr>
-		</table>
+		<form class="col-md-2" method="get" ng-click='getApartments();'>
+			<button class="btn btn-primary btn-large" type="submit">Get trafiklab</button>
+		</form>
+		<form class="col-md-2" method="get" ng-click='getTestApartments();'>
+			<button class="btn btn-primary btn-large" type="submit">Get 10 rows from apartments </button>
+		</form>
 	</div>
-	{{apartments}}
+	<div class="col-md-12">
+
+	<table class="table table-striped">
+		<tr class="tableHeader">
+			<th class="col-md-1" ng-repeat="th in query_keys">{{th}}</th>
+		</tr>
+		<tr ng-repeat="x in query_data">
+			<td ng-repeat="th in query_keys">
+				{{ x[th]}}
+			</td>
+		</tr>
+	</table>
+	
 </div>
 

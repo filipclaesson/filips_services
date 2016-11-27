@@ -14,8 +14,19 @@ $scope.getApartments = function(query){
     console.log({test: $scope.test})
     console.log('getApartments is running: ' + {test: $scope.test});
     
+    if ($scope.query_input == undefined || $scope.query_input == ''){
+        console.log('== undefined: ' + $scope.query_input )
+        query_in = 'Select substr(date::text,0,11) as date, address, sqm, floor, listprice, soldprice, round(lon::numeric,7) as lon, round(lat::numeric,7) as lat from apartments limit 10'
+        
+    }
+    else{
+        console.log('!== undefined: ' + $scope.query_input )
+        query_in = $scope.query_input
+
+        //query_in = 'Select date, address, sqm, floor, listprice, soldprice from apartments limit 10'
+    }
     reqData = {
-        query: 'Select date, address, sqm, floor, listprice, soldprice from apartments limit 1',
+        query: query_in,//'Select date, address, sqm, floor, listprice, soldprice from apartments limit 100',
         yay: 'yaysvar'
     }
 
@@ -26,7 +37,8 @@ $scope.getApartments = function(query){
         if (response.success){
             data = response.data
             console.log(data);
-            $scope.apartments = data;
+            $scope.query_data = data;
+            $scope.query_keys = Object.keys(data[0]);
         }
     }); 
 
@@ -36,6 +48,29 @@ $scope.getApartments = function(query){
         params: {test: $scope.test}}).success(*/
 };
 
+
+$scope.getTestApartments = function(query){
+    
+    query_in = 'Select substr(date::text,0,11) as date, address, sqm, floor, listprice, soldprice, round(lon::numeric,7) as lon, round(lat::numeric,7) as lat from apartments limit 10'
+    reqData = {
+        query: query_in//'Select date, address, sqm, floor, listprice, soldprice from apartments limit 100',
+    }
+
+    $http.get('/get_apartments', {params: reqData}).success(function(response){
+
+        if (response.success){
+            data = response.data
+            // console.log(data);
+            $scope.query_data = data;
+            $scope.query_keys = Object.keys(data[0]);
+        }
+    }); 
+
+    /*
+    $http({url:'/getData', 
+        method: "GET",
+        params: {test: $scope.test}}).success(*/
+};
 
 $scope.getRealtimeTraffic = function(){
 	console.log('getTrafik is running');
