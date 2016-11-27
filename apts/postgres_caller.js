@@ -11,11 +11,12 @@ function runQuery(query_in, callback) {
 			if (err) {
 				return console.error('error happened during query', err)
 			}
-			callback(result.rows)
 			//console.log(result.rows)
+			callback(result.rows)
 		})
 	})
 }
+//runQuery("Select 1 as result", function(){console.log("callback")})
 
 
 
