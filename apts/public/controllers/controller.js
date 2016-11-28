@@ -10,35 +10,27 @@ myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
 });*/
 
 
-$scope.getApartments = function(query){
-    console.log({test: $scope.test})
-    console.log('getApartments is running: ' + {test: $scope.test});
-    
-    if ($scope.query_input == undefined || $scope.query_input == ''){
-        console.log('== undefined: ' + $scope.query_input )
-        query_in = 'Select substr(date::text,0,11) as date, address, sqm, floor, listprice, soldprice, round(lon::numeric,7) as lon, round(lat::numeric,7) as lat from apartments limit 10'
-        
-    }
-    else{
-        console.log('!== undefined: ' + $scope.query_input )
-        query_in = $scope.query_input
+$scope.query_in = 'select * from apartments limit 10'
 
-        //query_in = 'Select date, address, sqm, floor, listprice, soldprice from apartments limit 10'
-    }
+$scope.getApartments = function(){
+    console.log('getApartments is running: ');
+    console.log('query_in: ' + $scope.query_in);
+
     reqData = {
-        query: query_in,//'Select date, address, sqm, floor, listprice, soldprice from apartments limit 100',
-        yay: 'yaysvar'
+        query: $scope.query_in
     }
 
     $http.get('/get_apartments', {params: reqData}).success(function(response){
         //error handling
-        console.log(response.data);
-        console.log(response.success);
+        console.log('inne i get http svaret');
+        response.data
+
         if (response.success){
-            data = response.data
-            console.log(data);
-            $scope.query_data = data;
-            $scope.query_keys = Object.keys(data[0]);
+            console.log(response.data);
+            $scope.query_data = response.data;
+            $scope.query_keys = Object.keys(response.data[0]);
+        }else{
+            console.log(response.data)
         }
     }); 
 
@@ -51,7 +43,7 @@ $scope.getApartments = function(query){
 
 $scope.getTestApartments = function(query){
     
-    query_in = 'Select substr(date::text,0,11) as date, address, sqm, floor, listprice, soldprice, round(lon::numeric,7) as lon, round(lat::numeric,7) as lat from apartments limit 10'
+    query_in = 'select substr(date::text,0,11) as date, address, sqm, floor, listprice, soldprice, round(lon::numeric,7) as lon, round(lat::numeric,7) as lat from apartments limit 2'
     reqData = {
         query: query_in//'Select date, address, sqm, floor, listprice, soldprice from apartments limit 100',
     }
@@ -59,6 +51,7 @@ $scope.getTestApartments = function(query){
     $http.get('/get_apartments', {params: reqData}).success(function(response){
 
         if (response.success){
+            console.log(response)
             data = response.data
             // console.log(data);
             $scope.query_data = data;

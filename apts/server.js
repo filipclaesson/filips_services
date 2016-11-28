@@ -14,23 +14,25 @@ app.get("/get_apartments", function (req,res) {
 	console.log("inne i get_apartments")
 	var handleResponse = function(rows){
         console.log("inside apartments handle response");
-        //console.log(rows)
+        console.log(rows)
         //console.log(JSON.stringify(rows))
-        statusCode = '0'
+
 
         
-        if(statusCode != '0'){ //check if an ERRROR was returned by trafiklab
+        if(rows.db_success == false){ //check if an ERRROR was returned by trafiklab
+            console.log('server sad =(')
             res.json({
                 success: false,
                 message: "somthing went wrong :/",
-                data: rows
+                data: rows.data
             });
         }else{ 
-
+            console.log('server happy =)')
+            console.log(rows)
             res.json({
                 success: true,
                 message: "Got data =)",
-                data: rows
+                data: rows.data
             });
         }
     } 

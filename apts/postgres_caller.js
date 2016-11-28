@@ -31,18 +31,29 @@ var cn = {
 };
 
 function runQuery(query, callback) {
+    console.log('inne i qunQuery')
 	var db = pgp(cn);
 	db.any(query, [true])
     .then(function (data) {
-        console.log(data)
-        callback(data)
+        response = {
+            db_success: true,
+            data: data
+        }
+        console.log("detta skickas till servern")
+        console.log(response)
+        callback(response)
     })
     .catch(function (error) {
+        response = {
+            db_success: false,
+            data: error
+        }
         console.log(error)
+
+        callback(response)
         // error;
     });
 }
-console.log(runQuery());
 
 
 
