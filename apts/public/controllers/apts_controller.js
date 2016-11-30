@@ -1,6 +1,6 @@
-var myApp = angular.module('myApp', ['ngRoute']);
-myApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
-    console.log("Hello World from controller");
+
+myApp.controller('AptsController', ['$scope', '$http', function($scope, $http) {
+    console.log("Hello World from  apts controller");
 
 // Detta är ett get request till urlen /contacts och serverns kommer 
 // skicka tillbaka ett response
@@ -183,10 +183,4 @@ $scope.initiateLeaflet = function(){
 
 
 
-}]).config(function($routeProvider){
-    $routeProvider.when('/',
-        {
-            templateUrl: 'views/hem.client.html'
-        })
-            
-    });
+}])
