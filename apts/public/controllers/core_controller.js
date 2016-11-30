@@ -140,6 +140,9 @@ $scope.initiateLeaflet = function(){
         }).when('/',
         {
             templateUrl: 'views/home.client.html'
+        }).when('/trafiklab',
+        {
+            templateUrl: 'views/trafiklab.client.html'
         })
             
     });

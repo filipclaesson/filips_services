@@ -1,0 +1,48 @@
+
+
+<div class="container" ng-controller="TrafiklabController"  >
+<!--<div class="container" ng-init="initiateApp(); ng-init="initiateLeaflet(); " ng-controller="AptsController">-->
+	<div class="page-header" id="banner">
+		<div class ="row">
+			<h1 id='top_header' ng-controller="TrafiklabController">Get Apartments data</h1>
+			<!--<form method="get" ng-click='getTrafik();'>
+				<button class="btn btn-primary btn-large" type="submit">Get Departures</button>
+			</form>-->
+			<div class="col-md-6">
+				<div class="col-md-6">
+					<form class="col-md-2" method="get" ng-click='getRealtimeTraffic();'>
+						<button class="btn btn-primary btn-large" type="submit">Get bus data</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<h2> Busses</h2>
+				<table class="table table-striped">
+					<tr class="tableHeader">
+						<th class="col-md-1">Destination</th>
+						<th class="col-md-1">Station Name</th>
+						<th class="col-md-1">Departure Time</th>
+						<th class="col-md-1">Lon</th>
+						<th class="col-md-1">Lat</th>
+						<th class="col-md-2">next</th>
+					</tr>
+					<tr ng-repeat="item in trafiklab_data">
+						<td> {{item.Destination}}</td>
+						<td> {{item.ExpectedDateTime}}</td>
+						<td> {{item.LineNumber}}</td>
+						<td> {{item.StopAreaName}}</td>
+						<td> {{item.TimeTabledDateTime}}</td>
+						<td> {{item.TimeTabledDateTime}}<span ng-repeat="station in departure.nextStations"> {{station}},</span> </td>
+					</tr>
+				</table>
+			</div>
+
+					
+
+			
+		</div>
+	</div>
+	
+</div>
+
