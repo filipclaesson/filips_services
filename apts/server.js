@@ -3,6 +3,7 @@ var trafiklab_caller = require("../trafiklab/trafiklab_caller");
 var app = express();
 app.use(express.static(__dirname + "/public"))
 var pg_caller = require("./postgres_caller");
+var path = require('path')
 
 
 
@@ -74,6 +75,15 @@ app.get("/get_realtime_traffic", function (req, res) {
     }   
     trafiklab_caller.getTraficlab(query,handleResponse)
 });
+
+
+app.get('/busmap',function(req,res){
+       
+     res.sendFile(path.join(__dirname+'/public/views/busmap.html'));
+
+});
+
+
 
 app.listen(8080);
 
