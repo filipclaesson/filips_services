@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute','isteven-multi-select','rzModule']);
 myApp.controller('CoreController', ['$scope', '$http', function($scope, $http) {
     console.log("Hello World from controller");
 

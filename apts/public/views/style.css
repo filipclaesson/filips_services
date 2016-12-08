@@ -9,3 +9,7 @@ body{
 #top_header {
 	margin-bottom: 30px;
 }
+
+.top-buffer { margin-top:20px; }
+
+.left-buffer { padding-left:20px; }
