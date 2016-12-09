@@ -24,83 +24,7 @@ $scope.getRealtimeTraffic = function(){
 		}
 	});	
 };
-/*
-"ResponseData": {
-        "Buses": [
-            {
-                "Destination": "Gullmarsplan",
-                "Deviations": null,
-                "DisplayTime": "1 min",
-                "ExpectedDateTime": "2016-10-13T21:45:26",
-                "GroupOfLine": null,
-                "JourneyDirection": 1,
-                "LineNumber": "160",
-                "SiteId": 1595,
-                "StopAreaName": "Sjöviksvägen",
-                "StopAreaNumber": 13907,
-                "StopPointDesignation": null,
-                "StopPointNumber": 13907,
-                "TimeTabledDateTime": "2016-10-13T21:45:26",
-                "TransportMode": "BUS"
-            },
-            {
-                "Destination": "Liljeholmen",
-                "Deviations": null,
-                "DisplayTime": "12 min",
-                "ExpectedDateTime": "2016-10-13T21:56:13",
-                "GroupOfLine": null,
-                "JourneyDirection": 2,
-                "LineNumber": "160",
-                "SiteId": 1595,
-                "StopAreaName": "Sjöviksvägen",
-                "StopAreaNumber": 13907,
-                "StopPointDesignation": null,
-                "StopPointNumber": 13908,
-                "TimeTabledDateTime": "2016-10-13T21:56:13",
-                "TransportMode": "BUS"
-            },
-            {
-                "Destination": "Gullmarsplan",
-                "Deviations": null,
-                "DisplayTime": "22:15",
-                "ExpectedDateTime": "2016-10-13T22:15:26",
-                "GroupOfLine": null,
-                "JourneyDirection": 1,
-                "LineNumber": "160",
-                "SiteId": 1595,
-                "StopAreaName": "Sjöviksvägen",
-                "StopAreaNumber": 13907,
-                "StopPointDesignation": null,
-                "StopPointNumber": 13907,
-                "TimeTabledDateTime": "2016-10-13T22:15:26",
-                "TransportMode": "BUS"
-            },
-            {
-                "Destination": "Liljeholmen",
-                "Deviations": null,
-                "DisplayTime": "22:21",
-                "ExpectedDateTime": "2016-10-13T22:21:13",
-                "GroupOfLine": null,
-                "JourneyDirection": 2,
-                "LineNumber": "160",
-                "SiteId": 1595,
-                "StopAreaName": "Sjöviksvägen",
-                "StopAreaNumber": 13907,
-                "StopPointDesignation": null,
-                "StopPointNumber": 13908,
-                "TimeTabledDateTime": "2016-10-13T22:21:13",
-                "TransportMode": "BUS"
-            }
-        ],
-        "DataAge": 18,
-        "LatestUpdate": "2016-10-13T21:43:45",
-        "Metros": [],
-        "Ships": [],
-        "StopPointDeviations": [],
-        "Trains": [],
-        "Trams": []
-    }
-*/
+
 $scope.initiateApp = function(){
     console.log('inne i initation')
     
@@ -143,6 +67,9 @@ $scope.initiateLeaflet = function(){
         }).when('/trafiklab',
         {
             templateUrl: 'views/trafiklab.client.html'
+        }).when('/leaflet',
+        {
+            templateUrl: 'views/leaflet.client.html'
         })
             
     });
