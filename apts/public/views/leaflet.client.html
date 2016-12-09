@@ -9,9 +9,15 @@
 				<button class="btn btn-primary btn-large" type="submit">Get Departures</button>
 			</form>-->
 			<div class="col-md-12">
-				<form class="col-md-2" method="get" ng-click='getApartmentsToPlot();'>
-					<button class="btn btn-primary btn-large" type="submit">Get apartments over 20 MSEK</button>
-				</form>
+				<div class="col-md-3">
+					<form  method="get" ng-click='getApartmentsToPlot();'>
+						<button class="btn btn-primary btn-large" type="submit">Get apartments over 20 MSEK</button>
+					</form>
+				</div>
+				<div class="col-md-4 bottom-buffer" >
+					<rzslider  rz-slider-model="slider.value"
+					rz-slider-options="slider.options"></rzslider>
+				</div>
 			</div>
 			 <div id="mapid"></div>
 		</div>
