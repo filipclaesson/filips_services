@@ -70,6 +70,9 @@ $scope.initiateLeaflet = function(){
         }).when('/leaflet',
         {
             templateUrl: 'views/leaflet.client.html'
+        }).when('/heatmap',
+        {
+            templateUrl: 'views/heatmap.client.html'
         })
             
     });

@@ -5,7 +5,7 @@ myApp.controller('LeafletController', ['$scope', '$http', function($scope, $http
 
 
 // L title kommer från mapbox i styles
-var mymap = L.map('mapid').setView([59.32166538, 18.06916639], 13);
+var mymap = L.map('mapid').setView([59.32166538, 18.06916639], 12);
 L.tileLayer('https://api.mapbox.com/styles/v1/mrliffa/ciwh1527n00c22ps5vuljnkhl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXJsaWZmYSIsImEiOiJjaXRzZWk2NDYwMDFoMm5tcmdobXVwMmgzIn0.I-e4EO_ZN-gC27258NMZNQ', {
 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 maxZoom: 18,
@@ -13,13 +13,12 @@ id: 'mrliffa/citses8bt00062ipelfijao0j/tiles/256',
 accessToken: 'pk.eyJ1IjoibXJsaWZmYSIsImEiOiJjaXRzZWk2NDYwMDFoMm5tcmdobXVwMmgzIn0.I-e4EO_ZN-gC27258NMZNQ'
 }).addTo(mymap);
 
-
-var circleTest = createCircle(L.latLng([59.32166538, 18.06916639]), 'red', '#f03', 0.5, 2000);
 var plotObjects = [];
 
 
 $scope.getApartmentsToPlot = function(query){
-    query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-07-01' and date < '2016-07-30' and area in ('City') "
+    query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-07-01' and date < '2016-07-30'"
+    // query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where area in ('City') "
     reqData = {
         query: query_in
     }
@@ -28,44 +27,39 @@ $scope.getApartmentsToPlot = function(query){
             console.log(response)
             data = response.data
 
-            //create circles
+            // 	Create Frontend Objects
             for (var i in data){
-            	console.log(String(data[i]["soldprice"]))
+            	var popupLabel = String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
+            	var circle = createCircle(L.latLng(data[i]["lat"],data[i]["lon"]), 'red', '#f03', 0.5, 20);
+            	circle.bindPopup(popupLabel);
             	plotObjects.push(
-            		[
-	            		createCircle(L.latLng(data[i]["lat"],data[i]["lon"]), 'red', '#f03', 0.5, 20, String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm" )
-	            		, data[i]["date"]
-	            		, data[i]["soldprice"]
-	            		, data[i]["sqm"]
-            		]
+            		{           			
+            			cricle: circle,
+	            		date: data[i]["date"],
+	            		price: data[i]["soldprice"],
+	            		sqm: data[i]["sqm"]
+            		}
             	);
             }
             plot(plotObjects)
-            globalData = data
         }
     });
 };
 
 function plot(circles){
 	for (var i in circles){
-		circles[i][0].addTo(mymap);
-	}
-}
-
-$scope.remove = function(){
-	for (var i in plotObjects){
-		mymap.removeLayer(plotObjects[i][0]);
+		circles[i]["cricle"].addTo(mymap);
 	}
 }
 
 $scope.updatePlot = function(){
 	sliderDate = ($scope.slider.date);
 	for (var i in plotObjects){
-		var aptDate = new Date(plotObjects[i][1]);
+		var aptDate = new Date(plotObjects[i]["date"]);
 		if (sliderDate.getTime() > aptDate.getTime()){
-			mymap.removeLayer(plotObjects[i][0]);
+			mymap.removeLayer(plotObjects[i]["cricle"]);
 		}else{
-			plotObjects[i][0].addTo(mymap);
+			plotObjects[i]["cricle"].addTo(mymap);
 		}
 		
 	}
