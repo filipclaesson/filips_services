@@ -2,10 +2,7 @@
 myApp.controller('HeatmapController', ['$scope', '$http', function($scope, $http) {
     console.log("Hello World from heatmap controller");
 
-var testData = {
-  max: 8,
-  data: [{lat: 24.6408, lng:46.7728, count: 3},{lat: 50.75, lng:-1.55, count: 1}]
-};
+
 
 
 var baseLayer = L.tileLayer(
@@ -18,10 +15,12 @@ var baseLayer = L.tileLayer(
     }
 );
 
+
+
 var cfg = {
   // radius should be small ONLY if scaleRadius is true (or small radius is intended)
   // if scaleRadius is false it will be the constant radius used in pixels
-  "radius": 0.01,
+  "radius": 0.002,
   "maxOpacity": .8, 
   // scales the radius based on map zoom
   "scaleRadius": true, 
@@ -42,17 +41,23 @@ var heatmapLayer = new HeatmapOverlay(cfg);
 
 var mymap = new L.Map('mapid', {
   center: new L.LatLng(59.32166538, 18.06916639),
-  zoom: 10,
+  zoom: 13,
   layers: [baseLayer, heatmapLayer]
 });
 
-
-
 var plotObjects = [];
 
+getApartmentsToPlot()
 
-$scope.getApartmentsToPlot = function(query){
+
+$scope.getApartmentsToPlot = function(){
+    getApartmentsToPlot()
+};
+
+
+function getApartmentsToPlot(){
     query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and (soldprice/nullif(sqm,0)) > 100000"
+    //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 50 and 60"
     // query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where area in ('City') "
     reqData = {
         query: query_in
@@ -62,30 +67,29 @@ $scope.getApartmentsToPlot = function(query){
             console.log(response)
             data = response.data
 
-            // 	Create Frontend Objects
+            //  Create Frontend Objects
             for (var i in data){
-            	//var popupLabel = String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
-            	//var circle = createCircle(,), 'red', '#f03', 0.5, 20);
-            	//circle.bindPopup(popupLabel);
-            	plotObjects.push(
-            		{           			
-            			lat: data[i]["lat"],
-	            		lng: data[i]["lon"],
-	            		count: 1
-            		}
-            	);
+                //var popupLabel = String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
+                //var circle = createCircle(,), 'red', '#f03', 0.5, 20);
+                //circle.bindPopup(popupLabel);
+                plotObjects.push(
+                    {                       
+                        lat: data[i]["lat"],
+                        lng: data[i]["lon"],
+                        count: 1
+                    }
+                );
             }
             console.log(plotObjects)
-            var testData = {
+            var heatmapPlotObjects = {
                 max: 8,
                 data: plotObjects
             };
             
-            heatmapLayer.setData(testData);
+            heatmapLayer.setData(heatmapPlotObjects);
         }
     });
-};
-
+}
 function plot(circles){
 	for (var i in circles){
 		circles[i]["cricle"].addTo(mymap);

@@ -1,16 +1,17 @@
 body{
-    background-color: #bec8ce;
+    background-color: #fff;
 }
 
 #mapid { 
-	height: 600px;
-	width: 80%;
+	height: 80%;
+	width: 100%;
 }
 
 
 
 #top_header {
 	margin-bottom: 30px;
+	margin-top: 50px;
 }
 
 .top-buffer { margin-top:20px; }

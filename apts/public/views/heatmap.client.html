@@ -1,15 +1,21 @@
 
 
-<div class="container" ng-controller="HeatmapController">
+<div class="container" ng-controller="HeatmapController" >
 <!--<div class="container" ng-init="initiateApp(); ng-init="initiateLeaflet(); " ng-controller="AptsController">-->
 	<div class="page-header" id="banner">
 		<div class ="row">
-			<h1 id='top_header'>Heatmap</h1>
+			<h1 id='top_header'> Appartment Heatmap</h1>
+			<div class="col-md-6">
+				<h4> Showing Appartments that are: </h4>
+				<ul class="list-group">
+					<li class="list-group-item">Sold for more than 100k/sqm in 2016</li>
+				</ul>
+			</div>
 			<!--<form method="get" ng-click='getTrafik();'>
 				<button class="btn btn-primary btn-large" type="submit">Get Departures</button>
 			</form>-->
 			<div class="col-md-12">
-				<div class="col-md-3">
+				<!--<div class="col-md-3">
 					<form  method="get" ng-click='getApartmentsToPlot();'>
 						<button class="btn btn-primary btn-large" type="submit">Get Apartments</button>
 					</form>
@@ -17,7 +23,7 @@
 				<div class="col-md-4 bottom-buffer" >
 					<rzslider  rz-slider-model="slider.date"
 					rz-slider-options="slider.options"></rzslider>
-				</div>
+				</div>-->
 			</div>
 			 <div id="mapid"></div>
 		</div>
