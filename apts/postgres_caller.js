@@ -32,6 +32,7 @@ var cn = {
 
 function runQuery(query, callback) {
     console.log('inne i qunQuery')
+    console.log(query)
 	var db = pgp(cn);
 	db.any(query, [true])
     .then(function (data) {
@@ -40,7 +41,7 @@ function runQuery(query, callback) {
             data: data
         }
         console.log("detta skickas till servern")
-        console.log(response)
+        console.log("length: " + response.data.length)
         callback(response)
     })
     .catch(function (error) {

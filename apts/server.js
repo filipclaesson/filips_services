@@ -15,7 +15,7 @@ app.get("/get_apartments", function (req,res) {
 	console.log("inne i get_apartments")
 	var handleResponse = function(rows){
         console.log("inside apartments handle response");
-        console.log(rows)
+        //console.log(rows)
         //console.log(JSON.stringify(rows))
 
 
@@ -29,7 +29,7 @@ app.get("/get_apartments", function (req,res) {
             });
         }else{ 
             console.log('server happy =)')
-            console.log(rows)
+            //console.log(rows)
             res.json({
                 success: true,
                 message: "Got data =)",
@@ -55,7 +55,7 @@ app.get("/get_realtime_traffic", function (req, res) {
     }
     var handleResponse = function(responseData){
         console.log("inside trafiklab handle response");
-        console.log(JSON.stringify(responseData))
+        //console.log(JSON.stringify(responseData))
         var statusCode = responseData.StatusCode;
         
         if(statusCode != '0'){ //check if an ERRROR was returned by trafiklab

@@ -37,7 +37,7 @@ var cfg = {
 };
 
 var heatmapLayer = new HeatmapOverlay(cfg);
-
+var globalData = []
 
 var mymap = new L.Map('mapid', {
   center: new L.LatLng(59.32166538, 18.06916639),
@@ -45,7 +45,7 @@ var mymap = new L.Map('mapid', {
   layers: [baseLayer, heatmapLayer]
 });
 
-var plotObjects = [];
+var locations = [];
 
 getApartmentsToPlot()
 
@@ -56,7 +56,7 @@ $scope.getApartmentsToPlot = function(){
 
 
 function getApartmentsToPlot(){
-    query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and (soldprice/nullif(sqm,0)) > 100000"
+    query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2010-01-01' and (soldprice/nullif(sqm,0)) > 90000"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 50 and 60"
     // query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where area in ('City') "
     reqData = {
@@ -66,76 +66,50 @@ function getApartmentsToPlot(){
         if (response.success){
             console.log(response)
             data = response.data
-
-            //  Create Frontend Objects
-            for (var i in data){
-                //var popupLabel = String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
-                //var circle = createCircle(,), 'red', '#f03', 0.5, 20);
-                //circle.bindPopup(popupLabel);
-                plotObjects.push(
-                    {                       
-                        lat: data[i]["lat"],
-                        lng: data[i]["lon"],
-                        count: 1
-                    }
-                );
-            }
-            console.log(plotObjects)
-            var heatmapPlotObjects = {
-                max: 8,
-                data: plotObjects
-            };
-            
-            heatmapLayer.setData(heatmapPlotObjects);
+            globalData = data
+            updateHeatmap()
         }
     });
 }
-function plot(circles){
-	for (var i in circles){
-		circles[i]["cricle"].addTo(mymap);
-	}
+function updateHeatmap(){
+    var tempLocations = []
+	for (var i in globalData){
+        var aptDate = new Date(globalData[i]["date"]);
+        var compareDate = new Date($scope.slider.value,1,1)
+
+        if (compareDate.getFullYear() == aptDate.getFullYear()){
+            tempLocations.push(
+                {
+                    lat: globalData[i]["lat"],
+                    lng: globalData[i]["lon"],
+                    count: 1,
+                    date: globalData[i]["date"]
+                }
+            );
+        }
+    }
+    var heatmapObject = {
+        max: 8,
+        data: tempLocations
+    };            
+    heatmapLayer.setData(heatmapObject);
+    
 }
 
-$scope.updatePlot = function(){
-	sliderDate = ($scope.slider.date);
-	for (var i in plotObjects){
-		var aptDate = new Date(plotObjects[i]["date"]);
-		if (sliderDate.getTime() > aptDate.getTime()){
-			mymap.removeLayer(plotObjects[i]["cricle"]);
-		}else{
-			plotObjects[i]["cricle"].addTo(mymap);
-		}
-		
-	}
+$scope.updateHeatmap = function(){
+    updateHeatmap();
 }
 
-function createCircle(latlng, color, fillColor, fillOpacity, radius, popupText){
-	var circle =  L.circle(latlng, {
-	    color: color,
-	    fillColor: fillColor,
-	    fillOpacity: fillOpacity,
-	    radius: radius
-		})
-	circle.bindPopup(popupText);
-	return circle;
-}
 
 // dates for slider
-var dates = [];
-for (var day = 1; day <= 30; day++) {
-    dates.push(new Date(2016, 6, day));
-}
 $scope.slider = {
-  date: dates[0], // or new Date(2016, 7, 10) is you want to use different instances
-  options: {
-    stepsArray: dates,
-    translate: function(date) {
-      if (date != null)
-        return date.toDateString();
-      return '';
-    },
-    onChange: $scope.updatePlot
-  }
+    value: 2014,
+    options: {
+        floor: 2012,
+        ceil: 2016,
+        step: 1,
+        onChange: $scope.updateHeatmap
+    }
 };
 
 
