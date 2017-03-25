@@ -63,7 +63,7 @@ $scope.initiateLeaflet = function(){
             templateUrl: 'views/apts.client.html'
         }).when('/',
         {
-            templateUrl: 'views/home.client.html'
+            templateUrl: 'views/plot_distance.client.html'
         }).when('/trafiklab',
         {
             templateUrl: 'views/trafiklab.client.html'
