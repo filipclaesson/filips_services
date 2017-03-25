@@ -52,8 +52,7 @@ getApartmentsToPlot()
 
 
 function getApartmentsToPlot(){
-    query_in = "
-select lon,lat,substr(sold_date::text,0,11) as date, sold_price, sqm from apartments where sold_date > '2010-01-01' and (sold_price/nullif(sqm,0)) > 90000"
+    query_in = "select lon,lat,substr(sold_date::text,0,11) as date, sold_price, sqm from apartments where sold_date > '2010-01-01' and (sold_price/nullif(sqm,0)) > 90000"
     //query_in  = "select address, lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where subarea = 'Tulemarken'"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 50 and 60"
     // query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where area in ('City') "
