@@ -38,14 +38,14 @@ function getApartmentsToPlot(){
 
             //  Create Frontend Objects
             for (var i in data){
-                var popupLabel = String(data[i]["soldprice"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
+                var popupLabel = String(data[i]["sold_price"]/1000000) + " Mkr, " + String(data[i]["sqm"]) + " kvm";
                 var circle = createCircle(L.latLng(data[i]["lat"],data[i]["lon"]), 'red', '#f03', 0.5, 20);
                 circle.bindPopup(popupLabel);
                 plotObjects.push(
                     {                       
                         cricle: circle,
                         date: data[i]["date"],
-                        price: data[i]["soldprice"],
+                        price: data[i]["sold_price"],
                         sqm: data[i]["sqm"]
                     }
                 );
