@@ -1,5 +1,5 @@
 
-myApp.controller('TrafiklabController', ['$scope', '$http', function($scope, $http) {
+myApp.controller('TrafiklabDistanceController', ['$scope', '$http', function($scope, $http) {
     console.log("Hello World from trafiklab controller");
 
 

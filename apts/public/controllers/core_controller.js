@@ -73,6 +73,9 @@ $scope.initiateLeaflet = function(){
         }).when('/heatmap',
         {
             templateUrl: 'views/heatmap.client.html'
+        }).when('/trafiklabdistance',
+        {
+            templateUrl: 'views/trafiklab_distance.client.html'
         })
             
     });
