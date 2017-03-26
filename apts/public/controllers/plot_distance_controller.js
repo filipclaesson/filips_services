@@ -147,7 +147,8 @@ function createSquare(lat,lng, color, fillColor, fillOpacity, radius, popupText)
       color: color,
       fillColor: fillColor,
       fillOpacity: fillOpacity,
-      radius: radius
+      radius: radius,
+      weight: 1
     })
   rectangle.bindPopup(popupText);
   return rectangle;
