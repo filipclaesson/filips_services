@@ -47,6 +47,8 @@ legend.addTo(mymap);
 
 function getApartmentsToPlotCircles(){
     query_in = "with base as ( select substring(lon::text from 1 for 6) as lon, substring(lat::text from 1 for 6) as lat, avg_time_to_central::numeric as avg_time_to_central, address, sold_price, sqm from apartments ) select lon,lat, round(avg(avg_time_to_central),1) as avg_time, min(address) as address, round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as price from base group by 1,2"
+    
+
     // query_in = "select lon,lat, avg_time from distance_to_central"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 30 and 60 and area in ('Sodermalm','City', 'Kungsholmen')"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and (soldprice/nullif(sqm,0)) > 100000"
@@ -61,7 +63,7 @@ function getApartmentsToPlotCircles(){
 
             //  Create Frontend Objects
             for (var i in data){
-                var popupLabel = String(data[i]["avg_time"]) + " min, address: " + data[i].address + ", " + data[i].price + "/kvm";
+                var popupLabel = String(data[i]["avg_time"]) + " min, address: " + data[i].address + ", " + data[i].price + " sek/sqm";
                 var color = getColor(data[i]["avg_time"])
                 var circle = createCircle(L.latLng(data[i]["lat"],data[i]["lon"]), color, color, 0.5, 20);
                 circle.bindPopup(popupLabel);
@@ -82,7 +84,11 @@ function getApartmentsToPlotCircles(){
 
 
 function getApartmentsToPlotRectangle(){
-    query_in = "with base as ( select substring(a.lon::text from 1 for 6) as lon , substring(a.lat::text from 1 for 6) as lat , g.avg_time_to_central::numeric as avg_time_to_central , address , sold_price , sqm from apartments a left join geo_data_sl g on (g.lon = round(a.lon::numeric,3)::text and g.lat = round(a.lat::numeric,3)::text) ) select lon ,lat , round(avg(avg_time_to_central),1) as avg_time , min(address) as address , round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as price from base group by 1,2 having round(avg(avg_time_to_central),1) > 0"
+    query_in = "with base as (  select substring(a.lon::text from 1 for 6) as lon , substring(a.lat::text from 1 for 6) as lat , g.avg_time_to_central::numeric as avg_time_to_central , address , sold_price , sqm  from apartments a  left join geo_data_sl g on (g.lon = round(a.lon::numeric,3)::text and g.lat = round(a.lat::numeric,3)::text)  where object_type = 'Lägenhet' )  select  lon ,lat ,sum(1) as nbr_of_apartments ,min(sqm) as min_sqm ,max(sqm) as max_sqm , round(avg(avg_time_to_central),1) as avg_time , min(address) as address , round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as avg_price from base group by 1,2 having round(avg(avg_time_to_central),1) > 0"
+    
+    //query_in = "with base as (  select substring(a.lon::text from 1 for 5) as lon , substring(a.lat::text from 1 for 5) as lat , g.avg_time_to_central::numeric as avg_time_to_central , address , sold_price , sqm  from apartments a  left join geo_data_sl g on (g.lon = round(a.lon::numeric,3)::text and g.lat = round(a.lat::numeric,3)::text)  where object_type = 'Lägenhet' )  select  lon ,lat ,sum(1) as nbr_of_apartments ,min(sqm) as min_sqm ,max(sqm) as max_sqm , round(avg(avg_time_to_central),1) as avg_time , min(address) as address , round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as avg_price from base group by 1,2 having round(avg(avg_time_to_central),1) > 0"
+    
+    //query_in = "with base as ( select substring(a.lon::text from 1 for 6) as lon , substring(a.lat::text from 1 for 6) as lat , g.avg_time_to_central::numeric as avg_time_to_central , address , sold_price , sqm from apartments a left join geo_data_sl g on (g.lon = round(a.lon::numeric,3)::text and g.lat = round(a.lat::numeric,3)::text) ) select lon ,lat , round(avg(avg_time_to_central),1) as avg_time , min(address) as address , round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as price from base group by 1,2 having round(avg(avg_time_to_central),1) > 0"
     // query_in = "select lon,lat, avg_time from distance_to_central"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 30 and 60 and area in ('Sodermalm','City', 'Kungsholmen')"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and (soldprice/nullif(sqm,0)) > 100000"
@@ -97,7 +103,7 @@ function getApartmentsToPlotRectangle(){
 
             //  Create Frontend Objects
             for (var i in data){
-                var popupLabel = String(data[i]["avg_time"]) + " min, address: " + data[i].address + ", " + data[i].price + "/kvm";
+                var popupLabel = "count: " + String(data[i]["nbr_of_apartments"]) + ", " + data[i]["min_sqm"] + "≤ sqm ≤" + data[i]["max_sqm"] + ", address: " + data[i]["address"] + ", " + data[i]["avg_price"] + "/kvm";
                 var color = getColor(data[i]["avg_time"])
                 var square = createSquare(data[i]["lat"],data[i]["lon"], color, color, 0.5, 20);
                 square.bindPopup(popupLabel);
@@ -142,6 +148,7 @@ function createCircle(latlng, color, fillColor, fillOpacity, radius, popupText){
 }
 
 function createSquare(lat,lng, color, fillColor, fillOpacity, radius, popupText){
+  //bounds = [[lat,lng], [parseFloat(lat)+0.01, parseFloat(lng)+ 0.01]]
   bounds = [[lat,lng], [parseFloat(lat)+0.001, parseFloat(lng)+ 0.001]]
   var rectangle =  L.rectangle(bounds, {
       color: color,
