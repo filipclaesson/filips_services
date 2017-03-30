@@ -5,7 +5,7 @@ myApp.controller('PlotDistanceController', ['$scope', '$http', function($scope, 
 
 
 // L title kommer från mapbox i styles
-var mymap = L.map('mapid').setView([59.29057783, 18.1094317], 13);
+var mymap = L.map('mapid').setView([59.33057783, 18.0894317], 12);
 L.tileLayer('https://api.mapbox.com/styles/v1/mrliffa/ciwh1527n00c22ps5vuljnkhl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibXJsaWZmYSIsImEiOiJjaXRzZWk2NDYwMDFoMm5tcmdobXVwMmgzIn0.I-e4EO_ZN-gC27258NMZNQ', {
 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 maxZoom: 18,
@@ -23,7 +23,7 @@ $scope.getApartmentsToPlot = function(){
     getApartmentsToPlotCircles()
 };
 
-var legend = L.control({position: 'bottomright'});
+var legend = L.control({position: 'topright'});
 
 legend.onAdd = function (mymap) {
 
