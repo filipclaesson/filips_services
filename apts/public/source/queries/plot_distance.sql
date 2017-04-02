@@ -15,7 +15,7 @@ order by nbr_of_apartments desc
 )
 
 
-select * from visualize_distance
+select * from
 
 
 

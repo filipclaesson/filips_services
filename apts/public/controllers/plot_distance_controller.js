@@ -105,7 +105,7 @@ function getApartmentsToPlotRectangle(){
             for (var i in data){
                 var popupLabel = data[i]["avg_time"] + "min, count: " + String(data[i]["nbr_of_apartments"]) + ", " + data[i]["min_sqm"] + "≤ sqm ≤" + data[i]["max_sqm"] + ", address: " + data[i]["address"] + ", " + data[i]["avg_price"] + "/kvm";
                 var color = getColor(data[i]["avg_time"])
-                var square = createSquare(data[i]["lat"],data[i]["lon"], color, color, 0.5, 20);
+                var square = createSquare(data[i]["lat_short"],data[i]["lon_short"], color, color, 0.5, 20);
                 square.bindPopup(popupLabel);
                 plotObjects.push(
                     {                       
