@@ -49,7 +49,7 @@ legend_description.onAdd = function (mymap) {
 
     var div = L.DomUtil.create('div', 'desc-legend')
         
-    div.innerHTML += '<p><b>Beskrivning</b><br>Varje kvadrat motsvarar en tidpunkt till T-centralen. I varje kvadrat finns ett antar sålda lägenheter.</p>'
+    div.innerHTML += '<p><b>Beskrivning</b><br>Varje kvadrat motsvarar en tidpunkt till T-centralen. I varje kvadrat finns ett antal sålda lägenheter.</p>'
     // loop through our density intervals and generate a label with a colored square for each interval
     
     return div;
