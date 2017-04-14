@@ -1,4 +1,5 @@
 ---------- create visualize_distance table ---------
+drop table visualize_distance;
 create table visualize_distance as (
 select 
 lon_short
@@ -9,16 +10,16 @@ lon_short
 , round(avg(avg_time_to_central),1) as avg_time
 , min(address) as address
 , round(avg(sold_price/nullif(sqm,0))/1000)*1000 as avg_price
-from view_of_apt_sl group by 1,2
+, sum(1)
+from view_of_apt_sl 
+where sold_date > '2016-01-01'
+group by 1,2
 having round(avg(avg_time_to_central),1) is not null
+and sum(1) > 3
 order by nbr_of_apartments desc
 )
 
-
-select * from
-
-
-
+-----------------------------------------------------
 
 ------ old db ------
 with base as ( 

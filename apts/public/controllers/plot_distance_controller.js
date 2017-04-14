@@ -23,33 +23,48 @@ $scope.getApartmentsToPlot = function(){
     getApartmentsToPlotCircles()
 };
 
+// add legend top right
 var legend = L.control({position: 'topright'});
-
 legend.onAdd = function (mymap) {
 
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [4,8,12,18, 22,28, 32, 36, 40],
         // grades = [0, 10, 20, 50, 100, 200, 500, 1000],
         labels = [];
-
+    div.innerHTML += '<p><b>Minuter till T-centralen</b></p>'
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? ' &ndash;' + grades[i + 1] + '<br>' : '+');
+            grades[i] + (grades[i + 1] ? ' &ndash;' + grades[i + 1] + ' min <br>' : ' min +');
     }
 
     return div;
 };
-
 legend.addTo(mymap);
+
+// add legend description
+var legend_description = L.control({position: 'topleft'});
+legend_description.onAdd = function (mymap) {
+
+    var div = L.DomUtil.create('div', 'desc-legend')
+        
+    div.innerHTML += '<p><b>Beskrivning</b><br>Varje kvadrat motsvarar en tidpunkt till T-centralen. I varje kvadrat finns ett antar sålda lägenheter.</p>'
+    // loop through our density intervals and generate a label with a colored square for each interval
+    
+    return div;
+};
+legend_description.addTo(mymap);
+
+
+
 
 
 function getApartmentsToPlotCircles(){
     query_in = "with base as ( select substring(lon::text from 1 for 6) as lon, substring(lat::text from 1 for 6) as lat, avg_time_to_central::numeric as avg_time_to_central, address, sold_price, sqm from apartments ) select lon,lat, round(avg(avg_time_to_central),1) as avg_time, min(address) as address, round(avg(sold_price::numeric/sqm::numeric)/1000)*1000 as price from base group by 1,2"
     
 
-    // query_in = "select lon,lat, avg_time from distance_to_central"
+    //query_in = "select lon,lat, avg_time from distance_to_central"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and soldprice/nullif(sqm,0) > 100000 and sqm between 30 and 60 and area in ('Sodermalm','City', 'Kungsholmen')"
     //query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where date > '2016-01-01' and (soldprice/nullif(sqm,0)) > 100000"
     // query_in = "select lon,lat,substr(date::text,0,11) as date, soldprice, sqm from apartments where area in ('City') "
@@ -192,6 +207,8 @@ var dates = [];
 for (var month = 1; month <= 10; month++) {
     dates.push(new Date(2016, month, 1));
 }
+
+
 $scope.slider = {
   date: dates[0], // or new Date(2016, 7, 10) is you want to use different instances
   options: {
